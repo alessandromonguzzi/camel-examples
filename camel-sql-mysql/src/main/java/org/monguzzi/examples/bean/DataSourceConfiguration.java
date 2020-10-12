@@ -9,6 +9,8 @@ import javax.sql.DataSource;
 import org.apache.camel.CamelContext;
 import org.apache.camel.PropertyInject;
 import org.apache.camel.component.sql.SqlComponent;
+import org.apache.camel.spi.TransactedPolicy;
+import org.apache.camel.spring.spi.SpringTransactionPolicy;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -47,16 +49,22 @@ public class DataSourceConfiguration {
 	}
 	
 	@Produces
-	@Named("txManager")
+	@Named("springTransactionPolicy") 
+	public TransactedPolicy transactedPolicy(PlatformTransactionManager ptm) {
+		return new SpringTransactionPolicy(ptm);
+	}
+	
+	@Produces
+	@Named("transactionManager")
 	public PlatformTransactionManager transactionManager (DataSource ds) {
 		return new DataSourceTransactionManager(ds);
     }
 	
     @Produces
     @Named("sql")
-    public SqlComponent createSqlComponent(){
+    public SqlComponent createSqlComponent(DataSource ds){
         SqlComponent sql= new SqlComponent(context);
-        sql.setDataSource(getDS());
+        sql.setDataSource(ds);
         return sql;
     }
 	

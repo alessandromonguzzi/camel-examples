@@ -22,7 +22,7 @@ public class Insert extends RouteBuilder {
 		.logRetryStackTrace(true).maximumRedeliveries(maximumRedeliveries).redeliveryDelay(redeliveryDelay)
 		.log(LoggingLevel.INFO, "Error insert");
     	
-		from("direct:insert").transacted().to("sql:INSERT INTO myTable VALUES ('first')?transacted=true")
+		from("direct:insert").transacted("springTransactionPolicy").to("sql:INSERT INTO myTable VALUES ('first')")
 			.log(LoggingLevel.INFO, "Insert- ${header.CamelSqlUpdateCount} myTable");
 	}
 	

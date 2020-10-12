@@ -27,7 +27,7 @@ public class RollbackExample extends RouteBuilder {
 		.logRetryStackTrace(true).maximumRedeliveries(maximumRedeliveries).redeliveryDelay(redeliveryDelay)
 		.log(LoggingLevel.INFO, "Error RollbackExample");
     	
-		from("direct:rollbackExample").transacted().to("sql:DELETE FROM myTable?transacted=true")
+		from("direct:rollbackExample").transacted("springTransactionPolicy").to("sql:DELETE FROM myTable")
 			.log(LoggingLevel.INFO, "RollbackExample- ${header.CamelSqlUpdateCount} myTable")
 			.throwException(new RuntimeException())
 			.to("mock:endpoint");

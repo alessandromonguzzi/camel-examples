@@ -55,3 +55,9 @@ http://localhost:8080/camel-sql-mysql/camel/restsvc/deleteAllTable
 1. Verify that the MySQL Engine supports transactions. See [Solution](https://access.redhat.com/solutions/5471771) for details.
 2. Update the MySQL connector dependency in pom.xml to be aligned with the used MySQL database version.
 3. [Alternative MySQL 5.1 docker image](https://hub.docker.com/r/vsamov/mysql-5.1.73) - by default MyISAM Engine is used and transactions do not work!
+4. JBoss EAP 7.2.8 + Fuse 7.7: load spring-jdbc dependency (and all the other jars) from Fuse installation modules, do not add them directly to the war file. The risk is to generate classloading issues.
+   See the `jboss-deployment-structure.xml` file for example.
+5. The `.transacted()` instruction opens a transaction that covers the entire route that follows (until the `;`). If you use a `transacted=true` option inside the `sql:` route, a different transaction is created that could be opened and closed on the same line.
+6. the `.transacted()` instruction selects its transaction manager through the transaction policy. You need to decide whether to use the locally declared Spring transaction manager, as in this example, or use the default JBOSS/JTA one. This requires additional configuration and it should be referenced through JNDI.
+
+

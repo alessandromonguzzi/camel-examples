@@ -37,6 +37,7 @@ public class RestConfiguration extends RouteBuilder {
             Configure we want to use servlet as the component for the rest DSL
             and we enable json binding mode
          */
+		
     	restConfiguration()
     		.bindingMode(RestBindingMode.off).component("servlet")
     		.endpointProperty("servletName", "CamelServlet-camel-sql-mysql")

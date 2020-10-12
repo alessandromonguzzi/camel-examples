@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-deployment-structure>
   <deployment>
-    <!-- Enable JBoss EAP server Artemis features -->
-    <dependencies>
-         <module name="org.apache.activemq.artemis" />
-    </dependencies>    
+      <dependencies>
+      	 <module name="org.springframework.jdbc" />
+      </dependencies>    
   </deployment>
+  
 </jboss-deployment-structure>

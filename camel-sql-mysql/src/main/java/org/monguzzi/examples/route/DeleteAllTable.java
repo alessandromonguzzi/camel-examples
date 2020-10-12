@@ -22,7 +22,7 @@ public class DeleteAllTable extends RouteBuilder {
 		.logRetryStackTrace(true).maximumRedeliveries(maximumRedeliveries).redeliveryDelay(redeliveryDelay)
 		.log(LoggingLevel.INFO, "Error deleteAllTable");
     	
-		from("direct:deleteAllTable").transacted().to("sql:DELETE FROM myTable")
+		from("direct:deleteAllTable").transacted("springTransactionPolicy").to("sql:DELETE FROM myTable")
 			.log(LoggingLevel.INFO, "DeleteAllTable- ${header.CamelSqlUpdateCount} myTable").id("log-deleteAllTable");
 	}
 	

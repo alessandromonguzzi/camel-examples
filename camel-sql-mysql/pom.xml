@@ -27,6 +27,12 @@
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-cdi</artifactId>
       <scope>provided</scope>
+      <exclusions>
+			<exclusion>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+			</exclusion>
+		</exclusions>
     </dependency>
     <dependency>
       <groupId>javax.enterprise</groupId>
@@ -37,10 +43,22 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-servlet</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+  		<artifactId>spring-jdbc</artifactId>
+  		<scope>provided</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-spring</artifactId>
+    	<scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-sql</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>commons-dbcp</groupId>
@@ -51,5 +69,6 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>${mysql-connector.version}</version>
     </dependency>
+   
   </dependencies>	
 </project>
