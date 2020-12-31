@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"sftp:latest","namespace":"openshift"},"fieldPath":"spec.template.spec.containers[?(@.name==\"sftp\")].image"}]'
+    openshift.io/generated-by: OpenShiftNewApp
+  labels:
+    app: sftp
+    app.kubernetes.io/component: sftp
+    app.kubernetes.io/instance: sftp
+    app.kubernetes.io/name: sftp
+  name: sftp
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: sftp
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        deployment: sftp
+    spec:
+      containers:
+      - image: atmoz/sftp@sha256:9b0606fa7852e6e34e43c76523b54d63707e519ea72561735f84e98b127ce123
+        imagePullPolicy: IfNotPresent
+        name: sftp
+        ports:
+        - containerPort: 22
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/ssh/ssh_host_rsa_key
+          name: sftp-ssh
+          subPath: ssh_host_rsa_key
+        - mountPath: /etc/ssh/ssh_host_ed25519_key
+          name: sftp-ssh
+          subPath: ssh_host_ed25519_key
+        - mountPath: /etc/sftp
+          name: volume-4vrll
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      volumes:
+      - configMap:
+          defaultMode: 384
+          name: sftp-ssh
+        name: sftp-ssh
+      - name: volume-4vrll
+        secret:
+          defaultMode: 420
+          secretName: sftp-users
+status: {}

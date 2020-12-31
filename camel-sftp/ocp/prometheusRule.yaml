@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: example
+    role: alert-rules
+  name: prometheus-rules
+spec:
+  groups:
+  - name: camel-k.rules
+    rules:
+    - alert: CamelKAlert
+      expr: application_camel_route_processing_seconds > 20
+

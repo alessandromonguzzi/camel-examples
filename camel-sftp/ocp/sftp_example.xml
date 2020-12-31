@@ -1,0 +1,20 @@
+
+
+<routes xmlns="http://camel.apache.org/schema/spring">
+
+
+   <route>
+   	<from uri="sftp://foo@sftp:22/upload/source?password=pass&amp;passiveMode=true&amp;throwExceptionOnConnectFailed=true&amp;maximumReconnectAttempts=0&amp;localWorkDirectory=/tmp&amp;sendEmptyMessageWhenIdle=true&amp;scheduler=quartz&amp;scheduler.cron=0/5+*+*+*+*+?&amp;useUserKnownHostsFile=false"/>
+
+                <!-- Recipient with SFTP -->
+                <filter>
+                        <simple>${body} != null</simple>
+                        <recipientList parallelProcessing="true">
+                        <constant>sftp://foo@sftp:22/upload/dest?password=pass&amp;passiveMode=true&amp;throwExceptionOnConnectFailed=true&amp;binary=true&amp;serverAliveInterval=30000&amp;serverAliveCountMax=999999999&amp;maximumReconnectAttempts=0&amp;tempFileName=${headers.CamelFileName}.tmp&amp;jschLoggingLevel=DEBUG&amp;fastExistsCheck=true</constant>
+                </recipientList>
+                </filter>
+                <log message="END of route" />
+   </route>
+</routes>
+
+
